@@ -14,6 +14,9 @@ class DebtSerializer(serializers.ModelSerializer):
         model = DebtModel
         fields = ('id', 'amount', 'currency', 'lender', 'borrower', 'status')
 
+    def update(self, instance, validated_data):
+        pass
+
     def to_representation(self, instance):
         """Convert the model instance to a dictionary for representation."""
         data = super().to_representation(instance)
