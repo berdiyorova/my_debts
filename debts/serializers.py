@@ -10,7 +10,7 @@ class DebtSerializer(serializers.ModelSerializer):
     lender = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), required=False)
     borrower = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), required=False)
     currency = serializers.PrimaryKeyRelatedField(queryset=CurrencyModel.objects.all(), required=False)
-
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
     remaining_amount = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
 
     class Meta:
@@ -24,13 +24,8 @@ class DebtSerializer(serializers.ModelSerializer):
         return debt
 
     def update(self, instance, validated_data):
-        old_amount = instance.amount
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
-
-        diff = instance.amount - old_amount
-        if diff:
-            instance.remaining_amount += diff
 
         if validated_data['last_paid_amount']:
             instance.remaining_amount -= instance.last_paid_amount
