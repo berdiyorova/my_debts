@@ -1,10 +1,14 @@
 from rest_framework import serializers
 
-from debts.models import DebtModel
+from debts.models import DebtModel, CurrencyModel
+from users.models import UserModel
 
 
 class DebtSerializer(serializers.ModelSerializer):
     status = serializers.CharField(max_length=64, required=False)
+    lender = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), required=False)
+    borrower = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all(), required=False)
+    currency = serializers.PrimaryKeyRelatedField(queryset=CurrencyModel.objects.all(), required=False)
 
     class Meta:
         model = DebtModel
@@ -17,7 +21,8 @@ class DebtSerializer(serializers.ModelSerializer):
         data['status_display'] = instance.get_status_display()  # Get human-readable status
 
         # Optionally, you can add additional fields or modify existing ones
-        data['currency_code'] = data['currency'].code if data['currency'] else None
+
+        data['currency_code'] = instance.currency.code if data['currency'] else None
 
         data['lender'] = {
             'username': instance.lender.username,
