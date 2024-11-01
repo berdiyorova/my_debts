@@ -8,6 +8,10 @@ class CurrencyModel(BaseModel):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = 'Currency'
+        verbose_name_plural = 'Currencies'
+
 
 
 class DebtModel(BaseModel):
@@ -23,3 +27,7 @@ class DebtModel(BaseModel):
     currency = models.ForeignKey(CurrencyModel, on_delete=models.SET_NULL, null=True)
     lender = models.ForeignKey(UserModel, on_delete=models.PROTECT, related_name='lent_debts')
     borrower = models.ForeignKey(UserModel, on_delete=models.PROTECT, related_name='borrowed_debts')
+
+    class Meta:
+        verbose_name = 'Debt'
+        verbose_name_plural = 'Debts'

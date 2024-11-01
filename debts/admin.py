@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from debts.models import DebtModel, CurrencyModel
+
+admin.site.register(DebtModel)
+admin.site.register(CurrencyModel)
