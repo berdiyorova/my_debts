@@ -10,4 +10,5 @@ urlpatterns = [
     path('login/', obtain_auth_token, name='login'),
     path('<int:pk>/', views.user_detail_view, name='user_detail'),
     path('admin/<int:pk>/', views.admin_detail_view, name='admin_detail'),
+    path('', views.users_list, name='users_list'),
 ]
